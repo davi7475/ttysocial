@@ -53,7 +53,7 @@ if user != "REGISTRAR":
                     print("2 Memes")
                     print("3:Pergunta do dia")
                     print("4: Guerras De Spam")
-                    sala = input("Qual chat você quer?")
+                    sala = input("Qual chat você quer? ")
                     match sala:
                         case "1":
                             path = "geral.txt"
@@ -91,12 +91,14 @@ if user != "REGISTRAR":
                         data = datetime.datetime.now()
                         os.system(f'echo "{texto_final}" >> "forum/{nome_post} Por {user} {data}.txt"')
                     elif forum_opcoes == "2":
-                        print("Aqui estão todos os posts do fórum:")
+                        numerodepostsforum = int(input("Até qual id de post você quer ver? (0 = mais recente) "))
+                        print("Aqui estão os posts do fórum:")
                         lista_txt = glob.glob('forum/*.txt')
                         for indice, valor in enumerate(lista_txt):
                             valor1 = valor.replace('txt', '')
                             valor2 = valor1.replace('forum/', '')
-                            print(f"ID:: {indice}, Título: {valor2}")
+                            if indice < numerodepostsforum+1:
+                                print(f"ID:: {indice}, Título: {valor2}")
                         postaler = input("Qual o ID do post você quer ler? ")
                         numeropost = int(postaler)
                         with open(lista_txt[numeropost], 'r', encoding='utf-8') as file:
@@ -123,21 +125,26 @@ if user != "REGISTRAR":
                             os.system(f'echo Por {user} "{tmail_final}" >> tmail/{destinatario}/{titulo}:{data}.txt')
                             
                     elif option_tmail == "2":
+                        numerodeposts = int(input("Até qual id de tmail você quer ver? (0 = mais recente) "))
                         lista_txt = glob.glob(f'tmail/{user}/*')
                         for indice, valor in enumerate(lista_txt):
                             valor1 = valor.replace('txt', '')
                             valor2 = valor1.replace(f'tmail/{user}', '')
                             valor3 = valor2.replace('/', '')
-                            print(f"ID: {indice}, Título: {valor3}")
+                            if indice < numerodeposts+1:
+                                print(f"ID: {indice}, Título: {valor3}")
                         postaler = input("Qual o ID do tmail você quer ler? ")
                         numeropost = int(postaler)
                         with open(lista_txt[numeropost], 'r', encoding='utf-8') as file:
                             conteudo = file.read()
                             print(conteudo)
                 case "4":
-                    usuario_chat = input("Digite o nome do Usuário a conversar")
+                    usuario_chat = input("Digite o nome do Usuário a conversar ")
                     if os.path.isfile(f"contas/{usuario_chat}.txt"):
-                        path = f"mp/{user}:{usuario_chat}.txt"
+                        if user < usuario_chat:
+                            path = f"mp/{user}:{usuario_chat}.txt"
+                        else:
+                            path = f"mp/{usuario_chat}:{user}.txt"
                         os.system(f"touch {path}")
                         nick = user 
                         chatopened = True
@@ -189,8 +196,9 @@ else:
         senha_registrar = input("Digite sua nova senha: ")
         senha_registrar_hash = hashlib.sha512(senha_registrar.encode('utf-8')).hexdigest()
         print("Salvando Usuário...")
-        if not os.path.isfile(f"/contas/{usuario_registrar}.txt"):
+        if not os.path.isfile(f"contas/{usuario_registrar}.txt"):
             os.system(f'echo "{senha_registrar_hash}" >> "contas/{usuario_registrar}.txt"')
             os.system(f"mkdir tmail/{usuario_registrar}")
+            os.system(f'touch tmail/{usuario_registrar}/Voltar.txt"')
             os.system(f'touch mp/"{usuario_registrar}.txt"')
             print("Usuário Salvo!") 
