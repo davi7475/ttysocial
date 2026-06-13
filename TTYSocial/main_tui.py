@@ -1,12 +1,9 @@
 import os
 import glob
 import tailer # type: ignore
-import ast
 import threading
-from sentence_transformers import SentenceTransformer, util
 import datetime
 import hashlib
-from thefuzz import fuzz
 import uuid
 import time
 import pyfiglet # type: ignore
@@ -32,7 +29,7 @@ time.sleep(3)
 tui.texto("Bem vindo Ao TTYSocial!!!")
 tui.texto("Faça Login:")
 user = tui.entrada_linha_obrigatoria("Digite seu Usuário (ou digite REGISTRAR para se registrar): ")
-if user != "REGISTRAR":
+if user != "REGISTRAR" and user != "Vovô Geraldo":
     if os.path.isfile(f'contas/{user}.txt'):
         password = tui.entrada_linha_obrigatoria("Agora, digite sua senha: ")
         password_hash = hashlib.sha512(password.encode('utf-8')).hexdigest()
@@ -55,8 +52,7 @@ if user != "REGISTRAR":
             ("6", "Sites"),
             ("7", "Entrar na TEXTNet (Text Extensible Xenial Transfer Network)"),
             ("8", "Jogos"),
-            ("9", "Wiki"),
-            ("10","Referências")
+            ("9", "Referências")
             ]
             option = tui.menu(menu=menu_principal)
             match option:
@@ -106,7 +102,6 @@ if user != "REGISTRAR":
                         data = datetime.datetime.now()
                         os.system(f'echo "{texto_final}" >> "forum/{nome_post} Por {user} {data}.txt"')
                     elif forum_opcoes == "2":
-                        menu_forum = []
                         numerodepostsforum = int(tui.entrada_linha_obrigatoria("Até qual id de post você quer ver? (0 = mais recente) "))
                         tui.texto("Aqui estão os posts do fórum:")
                         lista_txt = glob.glob('forum/*.txt')
@@ -114,16 +109,17 @@ if user != "REGISTRAR":
                             valor1 = valor.replace('txt', '')
                             valor2 = valor1.replace('forum/', '')
                             if indice < numerodepostsforum+1:
-                                menu_forum.append(ast.literal_eval(f"('{indice}', '{valor2}')"))
-                        postaler = tui.menu(menu_forum)
-                        with open(lista_txt[int(postaler)], 'r', encoding='utf-8') as file:
+                                tui.texto(f"ID:: {indice}, Título: {valor2}")
+                        postaler = tui.entrada_linha_obrigatoria("Qual o ID do post você quer ler? ")
+                        numeropost = int(postaler)
+                        with open(lista_txt[numeropost], 'r', encoding='utf-8') as file:
                             conteudo = file.read()
                             tui.texto(conteudo)
 
                 case "3":
                     menu_tmail = [
                     ("1" ,"Enviar T-Mails"),
-                    ("2" ,"Ler Meus T-Mails")]
+                    ("1" ,"Ler Meus T-Mails")]
 
                     option_tmail = tui.menu(menu_tmail)
                     if option_tmail == "1":
@@ -137,14 +133,13 @@ if user != "REGISTRAR":
                     elif option_tmail == "2":
                         numerodeposts = int(tui.entrada_linha_obrigatoria("Até qual id de tmail você quer ver? (0 = mais recente) "))
                         lista_txt = glob.glob(f'tmail/{user}/*')
-                        menu_tmails = []
                         for indice, valor in enumerate(lista_txt):
                             valor1 = valor.replace('txt', '')
                             valor2 = valor1.replace(f'tmail/{user}', '')
                             valor3 = valor2.replace('/', '')
                             if indice < numerodeposts+1:
-                                menu_tmails.append(ast.literal_eval(f"('{indice}', '{valor3}')"))
-                        postaler = tui.menu(menu_tmails)
+                                tui.texto(f"ID: {indice}, Título: {valor3}")
+                        postaler = tui.entrada_linha_obrigatoria("Qual o ID do tmail você quer ler? ")
                         numeropost = int(postaler)
                         with open(lista_txt[numeropost], 'r', encoding='utf-8') as file:
                             conteudo = file.read()
@@ -244,44 +239,38 @@ if user != "REGISTRAR":
                             with open(f"pedidos-de-jogos/{str(uuid.uuid4())}.txt", "x") as arquivo:
                                 arquivo.write(f"{user}:{datetime.datetime.now()}\n{codigo_final}")
                 case "9":
-                    menu_wiki = [
-                        ("1", "Criar Nova página"),
-                        ("2", "Ver página existente")
-                    ]
-                    opcao_wiki = tui.menu(menu_wiki)
-                    match opcao_wiki:
-                        case "1":
-                            paginacriada = False
-                            lista_txt_wiki = glob.glob(f'wiki/*')
-                            nome_pagina = tui.entrada_linha_obrigatoria("Digite o nome da página")
-                            for valor in lista_txt_wiki:
-                                valor1 = valor.replace('txt', '')
-                                valor2 = valor1.replace('wiki/', '')
-                                modelo = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
-                                vetor1 = modelo.encode(valor2)
-                                vetor2 = modelo.encode(nome_pagina)
-                                if util.cos_sim(vetor1, vetor2) >= 0.5:
-                                    paginacriada = True
-                                    nomeparecido = valor2
-                            if paginacriada == True:
-                                tui.texto(f"Página semelhante já criada com o nome de: {nomeparecido}")
-                            else:
-                                conteudo_pagina = tui.entrada_multilinha("Agora digite o Conteúdo da Página, Markdown é suportado")
-                                os.system(f"echo '{conteudo_pagina}' >> wiki/{nome_pagina}")
-                                tui.texto("Criado!")
-                        case "2":
-                            conteudo_a_ler = tui.entrada_linha_obrigatoria("Digite o nome da página a ler:")
-                            with open(f"wiki/{conteudo_a_ler}", "r") as f:
-                                markdown_pagina = markdown_text = Markdown(f.read())
-                            tempo_a_ler = tui.entrada_linha_obrigatoria("Quanto tempo você quer para ver a página antes de voltar ao menu?")
-                            console = Console()
-                            os.system("clear")
-                            console.print(markdown_pagina)
-                            time.sleep(int(tempo_a_ler))
-                case "10":
                     tui.texto("")
                 case _:
                     print("Opção Inválida")
+elif user == "Vovô Geraldo":
+    tui.texto("Memorial ao Meu Avô Falecido Geraldo Garcia do Amaral")
+    tui.texto("1: Históŕias")
+    tui.texto("2: Emprego")
+    tui.texto("3: Bar")
+    tui.texto("4: Final da vida e Falecimento")
+    opção = tui.entrada_linha_obrigatoria("Oque Você quer saber sobre ele? ")
+    match int(opção):
+        case 1:
+            tui.texto("1: A vez que ele (quase) se formou em química")
+            opcao_historias = int(tui.entrada_linha_obrigatoria("Escolha uma opção"))
+            match opcao_historias:
+                case 1:
+                    tui.texto("Era uma vez o meu avô, ele queria ir para uma universidade, mas tinha um problema, ele só fez escola até o primeiro ensino fundamental, então ele sabia quase nada para passar em um vesibular")
+                    tui.texto("Mas o meu avô era dedicado, ele estudou muito, e quando digo muito, digo muito mesmo, e advinha só? ele passou em uma universidade de química!")
+                    tui.texto("Ná Època, ser formado em química era ter uma vida bem sucedida garantida. além dissoa ajudar ele no emprego que ele queria, Cavador De Poço")
+                    tui.texto("Mas infelizmente, como ele só estudou até a quinta série(antes de ter que trabalhar na roça com o pai dele), ele não entendia quase nada das aulas e teve que abandonar o estudo")
+        case 2:
+            tui.texto("Meu avô originalmente trabalhava como cavador de poço, mas isso exigia ele ter que ir para muito longe(no interior do maranhão(sim, ele nasceu lá)) para cavar os poços, afinal, os locais perto da capital ja tinham água potável. Então Depois dele se aposentar, ele decidiu abrir um bar")
+        case 3:
+            tui.texto("Quando meu avô abriu um bar, ele foi um sucesso, mas logo outras pessoas começaram a gerar concorrencia abrindo outros bares na região, mas meu Avô era um excelente estragegista comercial e os outros bares acabaram fechando por não conseguir concorrer com o bar do meu avô")
+            tui.texto("O problema é que, além de gerir o bar, ele também bebia muito no própio bar dele, e quando ele ficava bêbado, sobrava pro meu pai cuidar do bar até ele ficar normal denovo")
+            tui.texto("mas meu avô percebeu que isto estava prejudicando o desenvolvimento do meu pai, então ele conseguiu parar de beber")
+        case 4:
+            tui.texto("Muitas Décadas depois, o meu avô ja estava velhino e com alzheimer, mas ele cuidava muito bem da cabeça, então os sintomas não estavam aparecendo, além de ir na academia")
+            tui.texto("Mas Chegou a COVID-19, e ele ficou muito parado sem fazer nada, com isso, os sintomas começaram a aparecer")
+            tui.texto("Depois Da COVID ele ficou uns 5-6 anos em estágio cada vez pior de alzheimer, nos seus últimos meses, ele não conseguia mais engolir alimento, falar direito, andar, e coisas do tipo")
+            tui.texto("Como ele não conseguia engolir alimento direito, o alimento acabava entrando no pulmão dele, e assim ele tinha pneumonia atrás de pneumonia, até que ele ficou itnernado por quase um mês até ele falecer")
+            tui.texto("Meu Avô era um homem muito trabalhador, bondoso, justo, preucupado com a família, e, mais do que tudo, tinha um bom coração")
 else:
     usuario_registrar = tui.entrada_linha_obrigatoria("Digite seu Novo Nome de Usuaŕio: ")
     if usuario_registrar != "REGISTRAR":
