@@ -32,7 +32,7 @@ time.sleep(3)
 tui.texto("Bem vindo Ao TTYSocial!!!")
 tui.texto("Faça Login:")
 user = tui.entrada_linha_obrigatoria("Digite seu Usuário (ou digite REGISTRAR para se registrar): ")
-if user != "REGISTRAR" and user != "Vovô Geraldo":
+if user != "REGISTRAR":
     if os.path.isfile(f'contas/{user}.txt'):
         password = tui.entrada_linha_obrigatoria("Agora, digite sua senha: ")
         password_hash = hashlib.sha512(password.encode('utf-8')).hexdigest()
@@ -282,35 +282,6 @@ if user != "REGISTRAR" and user != "Vovô Geraldo":
                     tui.texto("")
                 case _:
                     print("Opção Inválida")
-elif user == "Vovô Geraldo":
-    tui.texto("Memorial ao Meu Avô Falecido Geraldo Garcia do Amaral")
-    tui.texto("1: Históŕias")
-    tui.texto("2: Emprego")
-    tui.texto("3: Bar")
-    tui.texto("4: Final da vida e Falecimento")
-    opção = tui.entrada_linha_obrigatoria("Oque Você quer saber sobre ele? ")
-    match int(opção):
-        case 1:
-            tui.texto("1: A vez que ele (quase) se formou em química")
-            opcao_historias = int(tui.entrada_linha_obrigatoria("Escolha uma opção"))
-            match opcao_historias:
-                case 1:
-                    tui.texto("Era uma vez o meu avô, ele queria ir para uma universidade, mas tinha um problema, ele só fez escola até o primeiro ensino fundamental, então ele sabia quase nada para passar em um vesibular")
-                    tui.texto("Mas o meu avô era dedicado, ele estudou muito, e quando digo muito, digo muito mesmo, e advinha só? ele passou em uma universidade de química!")
-                    tui.texto("Ná Època, ser formado em química era ter uma vida bem sucedida garantida. além dissoa ajudar ele no emprego que ele queria, Cavador De Poço")
-                    tui.texto("Mas infelizmente, como ele só estudou até a quinta série(antes de ter que trabalhar na roça com o pai dele), ele não entendia quase nada das aulas e teve que abandonar o estudo")
-        case 2:
-            tui.texto("Meu avô originalmente trabalhava como cavador de poço, mas isso exigia ele ter que ir para muito longe(no interior do maranhão(sim, ele nasceu lá)) para cavar os poços, afinal, os locais perto da capital ja tinham água potável. Então Depois dele se aposentar, ele decidiu abrir um bar")
-        case 3:
-            tui.texto("Quando meu avô abriu um bar, ele foi um sucesso, mas logo outras pessoas começaram a gerar concorrencia abrindo outros bares na região, mas meu Avô era um excelente estragegista comercial e os outros bares acabaram fechando por não conseguir concorrer com o bar do meu avô")
-            tui.texto("O problema é que, além de gerir o bar, ele também bebia muito no própio bar dele, e quando ele ficava bêbado, sobrava pro meu pai cuidar do bar até ele ficar normal denovo")
-            tui.texto("mas meu avô percebeu que isto estava prejudicando o desenvolvimento do meu pai, então ele conseguiu parar de beber")
-        case 4:
-            tui.texto("Muitas Décadas depois, o meu avô ja estava velhino e com alzheimer, mas ele cuidava muito bem da cabeça, então os sintomas não estavam aparecendo, além de ir na academia")
-            tui.texto("Mas Chegou a COVID-19, e ele ficou muito parado sem fazer nada, com isso, os sintomas começaram a aparecer")
-            tui.texto("Depois Da COVID ele ficou uns 5-6 anos em estágio cada vez pior de alzheimer, nos seus últimos meses, ele não conseguia mais engolir alimento, falar direito, andar, e coisas do tipo")
-            tui.texto("Como ele não conseguia engolir alimento direito, o alimento acabava entrando no pulmão dele, e assim ele tinha pneumonia atrás de pneumonia, até que ele ficou itnernado por quase um mês até ele falecer")
-            tui.texto("Meu Avô era um homem muito trabalhador, bondoso, justo, preucupado com a família, e, mais do que tudo, tinha um bom coração")
 else:
     usuario_registrar = tui.entrada_linha_obrigatoria("Digite seu Novo Nome de Usuaŕio: ")
     if usuario_registrar != "REGISTRAR":
