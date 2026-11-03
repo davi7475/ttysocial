@@ -29,3 +29,18 @@ adicionei jogos, o chat agora é realmente direto(só você e a pessoa), dá pra
    Windows Abra o CMD e digite `ssh ttysocial@191.37.97.226:2256`,  a senha é 123
    
    Mobile: Baixe um a ssh client, a porta é 2256, o endereço é 191.37.97.226, o usuário é ttysocial e a senha é 123
+# Como Hospedar
+## AVISO: O SERVIDOR SÓ PODE SER HOSPEDADO NO LINUX OU NO WSL
+
+1. Crie um usuário chamado ttysocial e entre no diretório /home/ttysocial
+
+2. Acesse Este Link e clone o repositório, em seguida, installe o ssh e mova o arquivo sshd_config para /etc/ssh, substituindo o antigo.
+
+3. Pronto! Foi criado
+4. # Como participar da TEXTNet
+5. ## AVISO: VOCÊ TEM QUE TER O SERVIDOR HOSPEDADO SE QUISER INTERLIGA-LO NA TEXTNET
+6. 1. Primeiro baixe o syncthing e adiciona a pasta do TEXTNet que você baixou nele
+   2. Adicione um idspositivo remoto, e, quando for pedido, adicione esta chave:
+      D3MO2XZ-JVWVMEX-LV3L4E4-GAHCEOH-2SGMWYY-4CXASPG-CH3UFFT-UZMK5Q3
+      Por ùltimo, certifique-se de compartilhar a pasta(Sob o Menu "Sharing" ou "Compatilhamento") da TEXTNet que você adicionou
+      espere algum tempo, assim que eu ver seu pedido vou permitir a interligação :)
